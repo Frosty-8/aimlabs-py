@@ -1,91 +1,99 @@
 # Circle Clicker Game
 
-A minimalistic Pygame‑based game where you click a moving red circle to rack up points—and lose them when you miss.
+A simple Pygame-based game where you click a red circle to increase your score. Missing the circle decreases your score. The circle moves to a random position on the screen after each successful click.
+
+---
 
 ## Table of Contents
 
 * [Description](#description)
+* [Screenshot](#screenshot)
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Project Structure](#project-structure)
 * [Code](#code)
-
-  * [app.py](#apppy)
-  * [Makefile](#makefile)
-  * [requirements.txt](#requirementstxt)
 * [Contributing](#contributing)
 * [License](#license)
-* [Notes](#notes)
 
 ---
 
 ## Description
 
-The **Circle Clicker Game** opens a 1280 × 720 light‑blue window with a red circle in the centre. Each **left‑click on the circle** increments your score by one and teleports the circle to a new random position. Clicking **anywhere else** decrements the score by one. Your current score is always visible in the top‑left corner.
+The Circle Clicker Game is a minimalistic game built with Pygame. The objective is to click a red circle displayed on a light blue background. Each successful click on the circle increments your score by 1 and moves the circle to a random position on the screen. Clicking anywhere outside the circle decrements your score by 1. The current score is displayed in the top-left corner of the window.
+
+---
+
+## Screenshot
+
+Below is an example of the game window:
+
+![Circle Clicker Screenshot](ss.png)
 
 ---
 
 ## Requirements
 
-* **Python ≥ 3.6**
-* **Pygame** (listed in `requirements.txt`)
-* **Windows** (for the provided Makefile). See the *Notes* section for Unix instructions.
-* **Make** (e.g., `mingw32-make` on Windows)
+* Python 3.6 or higher
+* Pygame (specified in `requirements.txt`)
+* Windows operating system (for the provided Makefile; see notes for other systems)
+* Make (e.g., GNU Make for Windows, such as mingw32-make)
 
 ---
 
 ## Installation
 
-### 1 ‑ Clone or download the project
+### Clone or Download the Project:
 
-```bash
-# Example (HTTPS)
-git clone https://github.com/your‑name/CircleClickerGame.git
-cd CircleClickerGame
-```
+Clone the repository or download the project files to your local machine.
 
-### 2 ‑ Set up the virtual environment and install dependencies
+### Set Up the Virtual Environment:
 
-```bash
+Open a terminal in the project directory (e.g., `C:\Users\YourName\Documents\CircleClickerGame`). Run the following command to create a virtual environment and install dependencies:
+
+```sh
 make install
 ```
 
-This creates a `venv` folder and installs Pygame from `requirements.txt`.
+This creates a virtual environment in the `venv` folder and installs Pygame from `requirements.txt`.
 
-### 3 ‑ Fix the PowerShell execution policy (Windows only)
+### Fix PowerShell Execution Policy (Windows Only):
 
-If you see *“running scripts is disabled”*:
+If you encounter a "running scripts is disabled" error, open PowerShell as Administrator and set the execution policy:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
-Answer **Y** when prompted.
+Confirm with `Y` if prompted. This allows the Makefile to run PowerShell scripts.
 
 ---
 
 ## Usage
 
-### Run the game
+### Run the Game:
 
-```bash
+In the terminal, execute:
+
+```sh
 make run
 ```
 
-`make` activates the virtual environment and launches `app.py`.
+This activates the virtual environment and starts the game by running `app.py`.
 
-### How to play
+### How to Play:
 
-1. **Click the red circle** → score +1, circle moves.
-2. **Click elsewhere** → score –1.
-3. Close the window to quit.
+* A red circle appears on a light blue background in a 1280x720 window.
+* Click the circle with the left mouse button to increase your score and move the circle to a new random position.
+* Click anywhere outside the circle to decrease your score.
+* The current score is displayed in the top-left corner.
+* Close the window or press the close button to exit the game.
 
-### Clean up
+### Clean Up:
 
-Remove the virtual environment and cached files:
+To remove the virtual environment and cached Python files, run:
 
-```bash
+```sh
 make clean
 ```
 
@@ -93,13 +101,14 @@ make clean
 
 ## Project Structure
 
-```text
+```
 CircleClickerGame/
 ├── app.py              # Main game script (Pygame logic)
 ├── Makefile            # Automation for setup and running
-├── requirements.txt    # Python dependencies
+├── requirements.txt    # Python dependencies (Pygame)
 ├── venv/               # Virtual environment (created by `make install`)
-└── README.md           # Project documentation
+├── ss.png              # Screenshot of the game
+└── README.md           # Project documentation (this file)
 ```
 
 ---
@@ -112,31 +121,37 @@ CircleClickerGame/
 import pygame, sys, math, random
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-circle_pos = (1280 / 2, 720 / 2)
-font = pygame.font.Font(None, 30)
+screen = pygame.display.set_mode((1280,720))
+circle_pos = (1280/2,720/2)
+font = pygame.font.Font(None,30)
 score = 0
 
 def check_circle_condition() -> bool:
     mouse_pos = pygame.mouse.get_pos()
-    return math.hypot(mouse_pos[0] - circle_pos[0], mouse_pos[1] - circle_pos[1]) <= 50
+
+    if math.sqrt((mouse_pos[0]-circle_pos[0])**2 + (mouse_pos[1] - circle_pos[1])**2) <= 50:
+        return True
+    return False
 
 while True:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if check_circle_condition():
-                score += 1
-                circle_pos = (random.randint(0, 1280), random.randint(0, 720))
-            else:
-                score -= 1
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if check_circle_condition():
+                    score += 1
+                    circle_pos = (random.randint(0,1280), random.randint(0,720))
+                else:
+                    score -= 1
 
-    screen.fill("lightblue")
-    pygame.draw.circle(screen, "red", circle_pos, 50)
-    score_surf = font.render(f"Score: {score}", True, "black")
-    screen.blit(score_surf, (50, 50))
+    score_sum = font.render(f'Score: {score}', True, 'black')
+
+    screen.fill('lightblue')
+    pygame.draw.circle(screen, 'red', circle_pos, 50)
+    screen.blit(score_sum, (50,50))
     pygame.display.update()
 ```
 
@@ -172,7 +187,7 @@ clean:
 
 ### requirements.txt
 
-```text
+```txt
 pygame
 ```
 
@@ -180,24 +195,25 @@ pygame
 
 ## Contributing
 
-1. **Fork** the repository.
-2. **Create** a feature or fix branch.
-3. **Commit** your changes with clear messages.
-4. **Test** thoroughly.
-5. **Open** a pull request describing your changes.
+Contributions are welcome! To contribute:
 
-Follow the existing coding style and comment where appropriate.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and test thoroughly.
+4. Submit a pull request with a clear description of your changes.
+
+Please ensure your code follows the existing style and includes appropriate comments.
 
 ---
 
 ## License
 
-This project is licensed under the **MIT License**. See `LICENSE` for full text.
+This project is licensed under the MIT License. See the LICENSE file for details (if a license file is added).
 
 ---
 
 ## Notes
 
-* **Non‑Windows systems**: Replace the `run` and `clean` targets in the Makefile with Unix‑friendly commands (e.g., `source venv/bin/activate`, `rm -rf`).
-* **Negative scores** are allowed; to prevent them, add a check before decrementing in `app.py`.
-* The Makefile supports a future `.env` file for environment variables, though none are used currently.
+* **Non-Windows Systems**: The provided Makefile is designed for Windows (uses PowerShell and Windows-specific commands). For Linux/macOS, modify the `run` and `clean` targets to use `source $(VENV)/bin/activate` and `rm -rf`, respectively.
+* **Negative Scores**: The game allows scores to go negative. To prevent this, modify `app.py` to check if `score > 0` before decrementing.
+* **Environment Variables**: The game does not currently use a `.env` file, but the Makefile supports it for future extensions.
