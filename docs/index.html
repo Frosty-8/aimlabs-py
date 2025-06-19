@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Clicker Game Documentation</title>
+    <style>
+        :root {
+            --primary-color: #1e90ff;
+            --secondary-color: #ff4d4d;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin: 15px 0 10px;
+        }
+
+        p, li {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .code-block {
+            position: relative;
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #1565c0;
+            transform: scale(1.05);
+        }
+
+        .copy-button:active {
+            transform: scale(0.95);
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        /* Framer Motion-like animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Circle Clicker Game</h1>
+            <p>A simple Pygame-based game where you click a red circle to increase your score.</p>
+        </header>
+
+        <div class="section-card">
+            <h2>Description</h2>
+            <p>The Circle Clicker Game is a minimalistic game built with Pygame. The objective is to click a red circle on a light blue background. Each successful click increments your score by 1, moves the circle to a random position, and varies the circle's size. Clicking outside the circle decrements your score. The score and reaction time are displayed in the top-left corner.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>Requirements</h2>
+            <ul>
+                <li>Python 3.6 or higher</li>
+                <li>Pygame (specified in <code>requirements.txt</code>)</li>
+                <li>Windows operating system (for the provided Makefile; see notes for other systems)</li>
+                <li>Make (e.g., GNU Make for Windows, such as mingw32-make)</li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h2>Installation</h2>
+            <h3>Clone or Download the Project</h3>
+            <p>Clone the repository or download the project files to your local machine.</p>
+            <h3>Set Up the Virtual Environment</h3>
+            <p>Open a terminal in the project directory and run:</p>
+            <div class="code-block">
+                <pre>make install</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+            <p>This creates a virtual environment in the <code>venv</code> folder and installs Pygame.</p>
+            <h3>Fix PowerShell Execution Policy (Windows Only)</h3>
+            <p>If you encounter a "running scripts is disabled" error, open PowerShell as Administrator and run:</p>
+            <div class="code-block">
+                <pre>Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Usage</h2>
+            <h3>Run the Game</h3>
+            <p>In the terminal, execute:</p>
+            <div class="code-block">
+                <pre>make run</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+            <h3>How to Play</h3>
+            <ul>
+                <li>A red circle appears on a light blue background in a 1280x720 window.</li>
+                <li>Click the circle to increase your score and move it to a new random position with a random size.</li>
+                <li>Click outside the circle to decrease your score.</li>
+                <li>View your score and reaction time in the top-left corner.</li>
+                <li>Close the window to exit the game.</li>
+            </ul>
+            <h3>Clean Up</h3>
+            <p>To remove the virtual environment and cached files, run:</p>
+            <div class="code-block">
+                <pre>make clean</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Project Structure</h2>
+            <div class="code-block">
+                <pre>
+CircleClickerGame/
+├── app.py              # Main game script (Pygame logic)
+├── Makefile            # Automation for setup and running
+├── requirements.txt    # Python dependencies (Pygame)
+├── venv/               # Virtual environment
+├── ss.png              # Screenshot of the game
+└── README.md           # Project documentation
+                </pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Code</h2>
+            <h3>app.py</h3>
+            <div class="code-block">
+                <pre>
+import pygame, sys, math, random, time
+
+pygame.init()
+screen = pygame.display.set_mode((1280, 720))
+circle_pos = (1280/2, 720/2)
+font = pygame.font.Font(None, 30)
+score = 0
+
+SMALL_RADIUS_MIN, SMALL_RADIUS_MAX = 10, 40
+MEDIUM_RADIUS_MIN, MEDIUM_RADIUS_MAX = 41, 60
+circle_radius = 50
+
+reaction_time = 0
+circle_appear_time = time.time()
+
+def check_circle_condition() -> bool:
+    mouse_pos = pygame.mouse.get_pos()
+    return math.hypot(mouse_pos[0] - circle_pos[0], mouse_pos[1] - circle_pos[1]) <= circle_radius
+
+def spawn_new_circle():
+    global circle_pos, circle_radius, circle_appear_time
+    circle_pos = (random.randint(0, 1280), random.randint(0, 720))
+    if random.choice([True, False]):
+        circle_radius = random.randint(SMALL_RADIUS_MIN, SMALL_RADIUS_MAX)
+    else:
+        circle_radius = random.randint(MEDIUM_RADIUS_MIN, MEDIUM_RADIUS_MAX)
+    circle_appear_time = time.time()
+
+while True:
+    events = pygame.event.get()
+    for event in events:
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if check_circle_condition():
+                    reaction_time = time.time() - circle_appear_time
+                    print(f"Reaction Time: {int(reaction_time * 1000)} ms")
+                    score += 1
+                    spawn_new_circle()
+                else:
+                    score -= 1
+
+    screen.fill('lightblue')
+    pygame.draw.circle(screen, 'red', circle_pos, circle_radius)
+    
+    score_text = font.render(f'Score: {score}', True, 'black')
+    reaction_text = font.render(f'Reaction Time: {int(reaction_time * 1000)} ms', True, 'black')
+    
+    screen.blit(score_text, (50, 50))
+    screen.blit(reaction_text, (50, 90))
+    
+    pygame.display.update()
+                </pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+
+            <h3>Makefile</h3>
+            <div class="code-block">
+                <pre>
+# Variables
+PYTHON = python
+PIP = pip
+VENV = venv
+MAIN_SCRIPT = app.py
+
+.PHONY: all install run clean
+
+all: install run
+
+install:
+	$(PYTHON) -m venv $(VENV)
+	$(VENV)\Scripts\pip install --upgrade pip
+	$(VENV)\Scripts\pip install -r requirements.txt
+
+install-lib:
+	$(VENV)\Scripts\pip install -r requirements.txt
+
+run:
+	powershell -Command "& { . $(VENV)\Scripts\Activate.ps1; python $(MAIN_SCRIPT) }"
+
+clean:
+	if exist $(VENV) rmdir /s /q $(VENV)
+	if exist __pycache__ rmdir /s /q __pycache__
+	del /s /q *.pyc *.pyo 2>nul
+                </pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+
+            <h3>requirements.txt</h3>
+            <div class="code-block">
+                <pre>pygame</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Contributing</h2>
+            <p>Contributions are welcome! To contribute:</p>
+            <ol>
+                <li>Fork the repository.</li>
+                <li>Create a new branch for your feature or bug fix.</li>
+                <li>Make your changes and test thoroughly.</li>
+                <li>Submit a pull request with a clear description of your changes.</li>
+            </ol>
+            <p>Please ensure your code follows the existing style and includes appropriate comments.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>License</h2>
+            <p>This project is licensed under the MIT License. See the LICENSE file for details (if a license file is added).</p>
+        </div>
+
+        <div class="section-card">
+            <h2>Notes</h2>
+            <ul>
+                <li><strong>Non-Windows Systems</strong>: The Makefile is designed for Windows. For Linux/macOS, modify the <code>run</code> and <code>clean</code> targets to use <code>source $(VENV)/bin/activate</code> and <code>rm -rf</code>, respectively.</li>
+                <li><strong>Negative Scores</strong>: The game allows negative scores. To prevent this, modify <code>app.py</code> to check if <code>score > 0</code> before decrementing.</li>
+                <li><strong>Environment Variables</strong>: The game does not use a <code>.env</code> file, but the Makefile supports future extensions.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const code = button.previousElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
